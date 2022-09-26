@@ -1,13 +1,16 @@
 <template>
   <DigitalClock/>
+  <!-- <AlarmClock/> -->
 </template>
 
 <script>
 import DigitalClock from "./components/DigitalClock.vue"
+// import AlarmClock from "./components/AlarmClock.vue"
 export default {
   components: {
-    DigitalClock
-  }
+    DigitalClock,
+    // AlarmClock
+}
 }
 </script>
 
