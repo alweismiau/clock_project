@@ -1,24 +1,23 @@
 <template>
-  <DigitalClock/>
-  <!-- <AlarmClock/> -->
+  <DigitalClock />
 </template>
 
 <script>
-import DigitalClock from "./components/DigitalClock.vue"
-// import AlarmClock from "./components/AlarmClock.vue"
+import DigitalClock from "./components/DigitalClock.vue";
 export default {
   components: {
     DigitalClock,
-    // AlarmClock
-}
-}
+  },
+};
 </script>
-
 
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color: #2c3e50;
+  margin: 0%;
+  padding: 0%;
+  text-align: center;
 }
 @font-face {
   font-family: "alarm clock";

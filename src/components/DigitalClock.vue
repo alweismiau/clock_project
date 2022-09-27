@@ -11,17 +11,19 @@
     </div>
 
     <div class="alarm">
-                <form name="arlm">
-                    <p style="font-size: 25px;">ALARM</p>
-                    <span><input type="text" size="2" v-model="alarm.hr" onFocus="select()"></span>
-                    <span style="font-size: 25px">:</span>
-                    <span><input type="text" size="2" v-model="alarm.mts" ></span>
-                    <span style="font-size: 25px">:</span>
-                    <span><input type="text" size="2" v-model="alarm.ssecs" ></span>
-                    <br><br>
-                   <input type="button" size="2" value="Set Alarm" @click="setAlarm">
-                </form>
-            </div>
+      <form name="arlm">
+        <span
+          ><input type="text" size="2" v-model="alarm.hr" onFocus="select()"
+        /></span>
+        <span style="font-size: 25px">:</span>
+        <span><input type="text" size="2" v-model="alarm.mts" /></span>
+        <span style="font-size: 25px">:</span>
+        <span><input type="text" size="2" v-model="alarm.ssecs" /></span>
+        <br /><br />
+        <input type="button" size="2" value="Set Alarm" @click="setAlarm" />
+        <input type="button" value="Stop Alarm" @click="stopAlarm" />
+      </form>
+    </div>
   </div>
 </template>
 <script>
@@ -29,54 +31,80 @@ export default {
   name: "DigitalClock",
   data() {
     return {
-      playIt:true,
+      playIt: true,
       // ini buat jam
       hours: 0,
       minutes: 0,
       seconds: 0,
 
-      // buat alarm 
-      alarm:{
-        hr:0,
-        mts:0,
-        ssecs:0,
-      }
+      // audio
+      audio: new Audio(
+        "https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"
+      ),
+
+      // buat alarm
+      alarm: {
+        hr: 0,
+        mts: 0,
+        ssecs: 0,
+      },
     };
   },
   mounted() {
-    setInterval(() => this.setTime(), 1000)
-    this.almclktime()
+    setInterval(() => this.setTime(), 1000);
   },
   methods: {
     setAlarm() {
-        var vm = this;
-        let hrs = vm.alarm.hr;
-        let min = vm.alarm.mts;
-        let sec = vm.alarm.ssecs;
-        if ((vm.hours == hrs) &&
-           (vm.minutes == min) &&
-           (vm.seconds == sec)){
-          if (vm.playIt){
-            vm.playmusic()
-          }
-          if (vm.message) {
-            alert(vm.message);
-          }
-          return false}
-        if (hrs == '') {alert('The Hour field is empty.'); return false}
-        if (min == '') {alert('The Minute field is empty.'); return false}
-        if (hrs.length == 1) {vm.alarm.hr = '0' + hrs}
-        if (min.length == 1) {vm.alarm.mts = '0' + min}
-        if (sec.length == 1) {vm.alarm.mts = '0' + min}
-        if (hrs.length > 2) {alert('The Hour is entered wrong.'); return false}
-        if (min.length > 2) {alert('The Minute is entered wrong.'); return false}
-        if (sec.length > 2) {alert('The Second is entered wrong.'); return false}
-         setTimeout(vm.setAlarm, 1000);
-      },
-      playmusic(){
-        var vm = this
-        vm.$refs.audioalarm.play()
-        },
+      var vm = this;
+      let hrs = vm.alarm.hr;
+      let min = vm.alarm.mts;
+      let sec = vm.alarm.ssecs;
+      if (vm.hours == hrs && vm.minutes == min && vm.seconds == sec) {
+        if (vm.playIt) {
+          vm.playmusic();
+        }
+        return false;
+      }
+      if (hrs == "") {
+        alert("Jam kosong");
+        return false;
+      }
+      if (min == "") {
+        alert("Menit kosong");
+        return false;
+      }
+      if (hrs.length == 1) {
+        vm.alarm.hr = "0" + hrs;
+      }
+      if (min.toString().length == 1) {
+        vm.alarm.mts = "0" + min;
+      }
+      if (sec.toString().length == 1) {
+        vm.alarm.mts = "0" + min;
+      }
+      if (hrs.toString().length > 2) {
+        alert("Jam yang dimasukkan salah");
+        return false;
+      }
+      if (min.toString().length > 2) {
+        alert("Menit yang dimasukkan salah");
+        return false;
+      }
+      if (sec.toString().length > 2) {
+        alert("Detik yang dimasukkan salah");
+        return false;
+      }
+      setTimeout(vm.setAlarm, 1000);
+    },
+    stopAlarm() {
+      this.audio.pause();
+      this.playIt = false;
+      this.audio.loop = this.playIt;
+    },
+    playmusic() {
+      this.audio.play();
+      this.audio.loop = this.playIt;
+    },
     setTime() {
       const date = new Date();
       let hours = date.getHours();
@@ -93,12 +121,13 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+  
 .LCD {
   display: inline-flex;
 }
 .LCD > div {
   font-family: "alarm clock";
-  font-size: xx-large;
+  font-size: xxx-large;
 }
 </style>
