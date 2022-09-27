@@ -1,9 +1,11 @@
 <template>
   <DigitalClock />
+  <Timer />
 </template>
 
 <script>
 import DigitalClock from "./components/DigitalClock.vue";
+
 export default {
   components: {
     DigitalClock,
